@@ -70,15 +70,17 @@ This week focused on laying the groundwork for the project. Establishing a clear
   - Successfully ran the frontend server (`npm run dev:client`), confirming that the basic React app is operational.
 
 - **Challenges:**
-  - Encountered issues running the frontend and backend concurrently using `npm start`. The `MONGO_URI` variable in the backend is not loading correctly, causing the server to crash. For now, the frontend and backend must be run separately.
+  - Encountered issues running the frontend and backend concurrently using `npm start`. Based on feedback from the professor, the frontend and backend are now run separately to avoid complications with environment variables.
   - Testing React components is pending due to the initial focus on backend stability and Vite setup.
 
 ### **Reflection**
-This week focused on stabilizing the backend and laying the groundwork for the frontend migration to Vite. While the backend is fully functional with tasks, authentication, and basic testing, the frontend is currently running on a very basic level with minimal functionality. The global issue with running both servers concurrently will require further troubleshooting and guidance. I also need to remember to commit to GitHub more. I have been doing many back ups on my computer (habit) but really should be doing them through GitHub.
+This week focused on stabilizing the backend and laying the groundwork for the frontend migration to Vite. While the backend is fully functional with tasks, authentication, and basic testing, the frontend is currently running on a very basic level with minimal functionality. The decision to run frontend and backend separately simplifies the workflow and avoids further issues with concurrent runs.
 
 ---
 
-### **Plan for Week 3: November 25 - December 1**
+## Week 3: November 25 - December 1
+
+### **Plan**
 1. **Backend Enhancements**:
    - Improve task filtering, sorting, and pagination in the API.
    - Expand unit test coverage for backend routes.
@@ -87,29 +89,12 @@ This week focused on stabilizing the backend and laying the groundwork for the f
      - **Login/Signup Pages**: Integrate with the backend's `/login` and `/register` routes.
      - **Task List Page**: Display tasks fetched from the backend.
    - Implement API communication between the frontend and backend using Axios.
-3. **Resolve Global Running Issue**:
-   - Seek guidance from **Ben** to resolve the issue with running both the frontend and backend concurrently using `npm start`.
-4. **Testing Setup**:
+3. **Testing Setup**:
    - Set up Jest and React Testing Library for frontend component testing.
+4. **Commit to GitHub Regularly**:
+   - Ensure all progress is pushed to GitHub, reducing reliance on local backups.
 
 ---
-
-### **Code Snippet: Handling Sessions**
-To manage user sessions securely, the following `express-session` configuration was used in `server.js`:
-```javascript
-app.use(
-  session({
-    secret: config.sessionSecret,
-    resave: false,
-    saveUninitialized: false,
-    store: connectMongo.create({
-      mongoUrl: config.mongoURI,
-      collectionName: 'sessions',
-    }),
-    cookie: { secure: config.env === 'production', httpOnly: true },
-  })
-);
-```
 
 ### **Diagram: Updated Architecture**
 
@@ -156,4 +141,5 @@ app.use(
     ├── server.js                 // Entry point for backend server
     ├── .env                      // Environment variables
     └── package.json              // Backend dependencies and scripts
- 
+  ```
+

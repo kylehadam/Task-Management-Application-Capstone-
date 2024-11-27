@@ -17,11 +17,8 @@ The Task Management Application is a web-based tool to help users manage tasks, 
 - **Development Tools**: Nodemon, ESLint, Vite, Postman
 - **Testing**: Mocha, Chai, Jest
 
-## Current Challenges
-- The project works perfectly when the frontend and backend are started separately using their respective commands (`npm run dev:client` and `npm run dev:server`).
-- **Issue Running Globally**: When attempting to run both frontend and backend concurrently using `npm start`, the environment variables for the backend (`MONGO_URI`) are not being properly passed through. This results in a server crash due to the MongoDB connection not being initialized (`MONGO_URI` is undefined when accessed through the global setup).
-
-  This issue is being actively worked on, and for now, the workaround is to start the frontend and backend separately.
+## Current Workflow
+The frontend and backend must be run separately in their respective directories. This simplifies the development process and avoids issues with environment variables when trying to run both concurrently.
 
 ## How to Run the Project
 1. Clone the repository:
@@ -34,25 +31,25 @@ The Task Management Application is a web-based tool to help users manage tasks, 
    ```
 
 ### Backend
-1. Navigate to the server directory and install dependencies:
+1. Navigate to the `server` directory and install dependencies:
    ```bash
    cd server
    npm install
    ```
 2. Start the backend server:
    ```bash
-   npm run dev:server
+   npm run dev
    ```
 
 ### Frontend
-1. Navigate to the client directory and install dependencies:
+1. Navigate to the `client` directory and install dependencies:
    ```bash
    cd client
    npm install
    ```
 2. Start the frontend development server:
    ```bash
-   npm run dev:client
+   npm run dev
    ```
 
 ### Access the Application
@@ -60,8 +57,11 @@ The Task Management Application is a web-based tool to help users manage tasks, 
 - **Backend**: The backend API is available at `http://localhost:5000`.
 
 ## Important Notes
-- Ensure you have the correct `.env` file located in the `server` directory with the necessary environment variables (`MONGO_URI`, `JWT_SECRET`, `SESSION_SECRET`, etc.).
-- Currently, the project must be run using separate terminal instances for the frontend and backend until the global `npm start` issue is resolved.
+- Ensure you have the correct `.env` file located in the `server` directory with the necessary environment variables:
+  - `MONGO_URI`: MongoDB connection string.
+  - `JWT_SECRET`: Secret key for JWT authentication.
+  - `SESSION_SECRET`: Secret key for session management.
+- Since the frontend and backend are run separately, you’ll need to open two terminal windows to start them.
 
 ## License
 
