@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
-    "test": "cross-env MONGO_URI=\"mongodb+srv://kylehadam:Cooper0017@taskmanagementapplicati.vlltm.mongodb.net/test_db?retryWrites=true&w=majority\" JWT_SECRET=test_jwt_secret SESSION_SECRET=test_session_secret NODE_ENV=test mocha \"tests/**/*.test.js\" --recursive --exit --timeout 10000"
+    "test": "cross-env NODE_ENV=test mocha 'tests/**/*.test.js' --recursive --exit --timeout 10000"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
