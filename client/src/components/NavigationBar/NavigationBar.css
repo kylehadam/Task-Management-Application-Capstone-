@@ -1,0 +1,43 @@
+.navbar {
+  background-color: #282c34;
+  padding: 1rem 0;
+  width: 100%; /* Ensure the navbar spans the full width */
+  position: relative;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: center; /* Center the navigation items */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar li {
+  margin: 0 1rem;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #61dafb;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #4a96c9;
+  text-decoration: underline;
+}
+
+.navbar button {
+  background: transparent;
+  border: none;
+  color: #61dafb;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.navbar button:hover {
+  text-decoration: underline;
+}

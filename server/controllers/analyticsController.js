@@ -1,11 +1,17 @@
 import Task from '../models/Task.js';
 
+/**
+ * Fetch task completion statistics for the authenticated user.
+ * @param {Request} req - Express request object with the user's ID.
+ * @param {Response} res - Express response object.
+ */
 export const getTaskCompletionStats = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    // Aggregate statistics for completed and pending tasks
     const stats = await Task.aggregate([
-      { $match: { user: userId } },
+      { $match: { user: userId } }, // Filter tasks by user
       {
         $group: {
           _id: null,
@@ -15,10 +21,18 @@ export const getTaskCompletionStats = async (req, res) => {
       },
     ]);
 
+    // Ensure stats exist or provide defaults
     const result = stats[0] || { completedTasks: 0, pendingTasks: 0 };
 
-    res.status(200).json(result);
+    res.status(200).json({
+      success: true,
+      data: result, // Include data explicitly for consistency
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch task statistics' });
+    console.error('Error fetching analytics:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch task statistics', // Standardized error field
+    });
   }
 };
