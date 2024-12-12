@@ -1,6 +1,10 @@
-# Development Log
+Here’s the updated **Development Log** with the errors noted and planned resolution steps for Week 4, as well as an updated **File Structure**.
 
-## Week 1: November 11 - November 17
+---
+
+# **Development Log**
+
+## **Week 1: November 11 - November 17**
 
 ### **Development Status**
 - **Tasks Completed:**
@@ -27,119 +31,265 @@ This week focused on laying the groundwork for the project. Establishing a clear
 
 ---
 
-## Week 2: November 18 - November 24
+## **Week 2: November 18 - November 24**
 
 ### **Development Status**
 - **Backend Progress:**
   - Developed and tested database schemas:
-    - **User Schema**:
-      ```javascript
-      const userSchema = new mongoose.Schema({
-        name: { type: String, required: true },
-        email: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
-      });
-      ```
-    - **Task Schema**:
-      ```javascript
-      const taskSchema = new mongoose.Schema({
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-        title: { type: String, required: true },
-        description: { type: String, required: true },
-        completed: { type: Boolean, default: false },
-      });
-      ```
-  - Implemented authentication:
-    - Session-based login/logout using `express-session` and `connect-mongo`.
-    - Created routes for `/register` and `/login` in `authRoutes.js`.
-  - Developed task management CRUD API:
-    - Routes for creating, reading, updating, and deleting tasks in `taskRoutes.js`.
-  - Added unit testing for authentication and task routes:
-    - Tools used: **Mocha**, **Chai**, and **chai-http**.
+    - **User Schema** for user authentication.
+    - **Task Schema** for managing user tasks.
+  - Implemented session-based authentication with `express-session` and `connect-mongo`.
+  - Developed CRUD APIs for task management.
+  - Added unit testing for authentication and task routes using **Mocha**, **Chai**, and **chai-http**.
 
 - **Frontend Progress:**
-  - Migrated to **Vite** for faster development and better support for TypeScript.
-  - Set up a basic React app with Vite.
-    - The current `App.tsx` includes simple boilerplate code:
-      ```tsx
-      function App() {
-        return <h1>Task Management Application</h1>;
-      }
-      export default App;
-      ```
-  - Successfully ran the frontend server (`npm run dev:client`), confirming that the basic React app is operational.
+  - Migrated the project to **Vite** for faster development and better support for TypeScript.
+  - Set up a basic React application with placeholders for authentication and task pages.
 
 - **Challenges:**
-  - Encountered issues running the frontend and backend concurrently using `npm start`. Based on feedback from the professor, the frontend and backend are now run separately to avoid complications with environment variables.
-  - Testing React components is pending due to the initial focus on backend stability and Vite setup.
+  - Encountered issues running frontend and backend concurrently using `npm start`. Based on feedback, servers are now run separately to simplify the workflow.
 
 ### **Reflection**
-This week focused on stabilizing the backend and laying the groundwork for the frontend migration to Vite. While the backend is fully functional with tasks, authentication, and basic testing, the frontend is currently running on a very basic level with minimal functionality. The decision to run frontend and backend separately simplifies the workflow and avoids further issues with concurrent runs.
+Backend stability has been achieved, and the frontend groundwork is prepared with Vite. This sets the stage for feature integration in the following weeks.
 
 ---
 
-## Week 3: November 25 - December 1
+## **Week 3: November 25 - December 1**
 
-### **Plan**
-1. **Backend Enhancements**:
-   - Improve task filtering, sorting, and pagination in the API.
-   - Expand unit test coverage for backend routes.
-2. **Frontend Progress**:
-   - Begin building core React components such as:
-     - **Login/Signup Pages**: Integrate with the backend's `/login` and `/register` routes.
-     - **Task List Page**: Display tasks fetched from the backend.
-   - Implement API communication between the frontend and backend using Axios.
-3. **Testing Setup**:
-   - Set up Jest and React Testing Library for frontend component testing.
-4. **Commit to GitHub Regularly**:
-   - Ensure all progress is pushed to GitHub, reducing reliance on local backups.
+### **Development Status**
+- **Backend Progress:**
+  - Enhanced task API with filtering, sorting, and pagination.
+  - Added global error handling middleware for standardized error responses.
+  - Wrote additional unit tests for task filtering, sorting, and pagination.
+
+- **Frontend Progress:**
+  - Created functional **Login** and **Signup** components that integrate with the backend APIs.
+  - Added routing with React Router for `/login`, `/signup`, and `/tasks`.
+  - Built a basic **Tasks** component to dynamically load and display tasks.
+  - Implemented user redirection after login/signup using `useNavigate`.
+
+- **Integration Progress:**
+  - Verified API integration for dynamic task loading.
+  - Added placeholders for task creation and task management functionalities.
+
+### **Reflection**
+The project now supports full authentication and dynamic task retrieval. Significant backend improvements were achieved, including filtering and pagination. On the frontend, basic user authentication and task display functionalities were integrated.
+
+
+## **Week 4: December 2 - December 8**
+
+### **Development Status**
+- **Backend Progress:**
+  - Added `/analytics/stats` endpoint to fetch task completion statistics:
+    ```javascript
+    const stats = await Task.aggregate([
+      { $match: { user: userId } },
+      {
+        $group: {
+          _id: null,
+          completedTasks: { $sum: { $cond: ['$completed', 1, 0] } },
+          pendingTasks: { $sum: { $cond: ['$completed', 0, 1] } },
+        },
+      },
+    ]);
+    ```
+  - Improved task deletion API to handle invalid task IDs, ensuring proper error handling:
+    ```javascript
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ error: 'Invalid task ID format' });
+    }
+    ```
+
+- **Frontend Progress:**
+  - Created **Dashboard** component to display analytics data using **Recharts**:
+    ```tsx
+    <BarChart data={data}>
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="value" fill="#82ca9d" />
+    </BarChart>
+    ```
+  - Integrated API calls in the **Dashboard** to fetch and display analytics:
+    ```tsx
+    const fetchAnalytics = async () => {
+      const { data } = await axios.get('/api/analytics/stats', { headers: { Authorization: `Bearer ${token}` } });
+      setAnalyticsData(data);
+    };
+    ```
+
+- **Testing Progress:**
+  - Resolved most backend test failures. However, the following issues persist:
+    1. **Analytics API**: The analytics endpoint test fails due to mismatched statistics (`expected: 1, actual: 0`).
+    2. **Task Deletion API**: Deleting a non-existing task returns a `400` status instead of the expected `404`.
+
+- **Styling Progress:**
+  - Applied basic CSS to **Dashboard** and **TaskList** components to improve readability.
+  - Initiated responsive design adjustments but requires further work.
+
+- **Offline Functionality Progress:**
+  - Began integrating `localStorage` for offline task caching in **TaskList**.
+  - Need to complete syncing logic for tasks when reconnected to the backend.
+
+### **Challenges**
+- Debugging the Analytics API to ensure correct statistics.
+- Completing offline syncing logic for tasks.
+- Enhancing styling to ensure responsiveness across all components.
+
+### **Reflection**
+Significant progress was made on analytics and error handling, but testing issues remain unresolved. Offline functionality and styling tasks are partially complete and will carry over into Week 5.
+
+## **Week 5: December 9 - December 15**
+
+Here’s the updated **Week 5: December 9 - December 12** entry for your **Development Log**:
 
 ---
 
-### **Diagram: Updated Architecture**
+## **Week 5: December 9 - December 12**
+
+### **Frontend Progress**
+- **NavigationBar and Footer:**
+  - Updated both components to align with a consistent theme.
+  - Added distinct background shades for improved readability.
+  - Ensured the Logout button matched the style of navigation links (Tasks, Dashboard).
+  - Differentiated the footer design slightly from the navigation bar for better visual separation.
+  
+- **Unified Button Styling:**
+  - Standardized button designs across the app (red and blue buttons with borders and centered text).
+
+- **Signup Modal:**
+  - Implemented a modal pop-up on signup success:
+    - Users are presented with a confirmation modal stating: _"Signup successful. Logging in..."_.
+    - Redirect to `/tasks` occurs after modal acknowledgment.
+
+- **Landing Page:**
+  - Improved button spacing and alignment.
+  - Added consistent padding and font sizes for a polished appearance.
+
+### **Challenges**
+1. **Modals:**
+   - Implementing modal pop-ups required additional testing to ensure proper behavior across browsers.
+   - Hot module reloading (HMR) intermittently caused unexpected reloads due to modal integration.
+
+2. **Navigation Bar and Footer:**
+   - Adjusting Logout button styling to match navigation links required fine-tuning for consistency.
+   - Differentiating footer and navigation bar backgrounds for better visual separation required subtle but effective design changes.
+
+### **Reflection**
+This week focused heavily on **UI/UX consistency** and resolving critical bugs related to **state management** and **routing**. The consistent theme across components significantly improved the app's usability and visual appeal.
+
+### **Pending Tasks**
+#### **1. Signup Modal Refinement**
+- **Issue:** While the signup success modal is functional, it requires design enhancements.
+- **Next Steps:**
+  - Add animations or transitions to enhance the user experience.
+  - Test modal responsiveness on various devices and browsers.
+
+#### **2. Analytics Enhancements**
+- **Goal:** Extend analytics to include weekly and monthly task summaries.
+- **Files to Update:**
+  - `Dashboard.tsx`: Add UI for extended analytics.
+  - `api.ts`: Add endpoints to support weekly and monthly task summaries.
+
+#### **3. Offline Functionality**
+- **Goal:** Add offline task creation and caching with syncing on reconnection.
+- **Files to Change:**
+  - `api.ts`: Modify API utility to handle offline task caching using `localStorage`.
+  - `TaskList.tsx`: Integrate logic to sync offline tasks with the backend upon reconnection.
+
+#### **4. Styling**
+- **Goal:** Ensure a fully responsive and visually cohesive design.
+- **Files to Update:**
+  - `index.css`: Apply general UI styling for the app.
+  - Update CSS for:
+    - `TaskList.css`
+    - `TaskForm.css`
+
+---
+
+### **Deliverables**
+- Fully functional task management UI with CRUD features.
+- Enhanced analytics dashboard with accurate statistics and new summaries.
+- Offline task management with syncing functionality.
+- Responsive and styled UI across all devices.
+
+---
+
+Let me know if you need additional refinements!
+
+### Updated **File Structure**
 
 #### **Frontend (Vite + React)**
-- **Structure:**
-  ```
-  Frontend (Vite + React)
-    ├── src/
-    │   ├── App.tsx                // Main app component
-    │   ├── main.tsx               // Entry point for rendering React
-    │   ├── assets/                // Static assets (e.g., images, etc.)
-    │   ├── Axios (API Calls)      // (Future folder for API utilities)
-    │   └── Basic Components (WIP) // (Future folder for components like forms, task lists, etc.)
-    ├── public/
-    │   └── vite.svg               // Public assets (directly accessible)
-    ├── index.html                 // Root HTML file for the app
-    ├── vite.config.ts             // Vite configuration file
-    └── tsconfig.json              // TypeScript configuration
-  ```
+```
+Frontend (Vite + React)
+client/
+├── node_modules/              // Node.js dependencies
+├── public/
+│   ├── favicon.ico            // Favicon for the app
+│   └── vite.svg               // Vite's default asset
+├── src/
+│   ├── assets/                // Static assets (e.g., images, icons)
+│   ├── components/            // React components
+│   │   ├── Auth/              // Authentication components
+│   │   │   ├── Auth.css       // Styling for Login & Signup
+│   │   │   ├── Login.tsx      // Login component
+│   │   │   └── Signup.tsx     // Signup component
+│   │   ├── Dashboard/         // Analytics dashboard component
+│   │   │   └── Dashboard.tsx  // Dashboard logic and UI
+│   │   ├── Footer/            // Footer component
+│   │   │   ├── Footer.css     // Styling for the Footer
+│   │   │   └── Footer.tsx     // Footer logic and UI
+│   │   ├── LandingPage/       // Landing Page components
+│   │   │   ├── LandingPage.css // Styling for the Landing Page
+│   │   │   └── LandingPage.tsx // Landing Page logic and UI
+│   │   ├── NavigationBar/     // Navigation Bar components
+│   │   │   ├── NavigationBar.css // Styling for the Navigation Bar
+│   │   │   └── NavigationBar.tsx // Navigation Bar logic and UI
+│   │   └── Tasks/             // Task management components
+│   │       ├── Task.css       // Styling for the Task List
+│   │       ├── TaskForm.css   // Styling for the Task Form
+│   │       ├── TaskForm.tsx   // Task Form logic and UI
+│   │       ├── TaskList.css   // Styling for the Task List
+│   │       ├── TaskList.tsx   // Task List logic and UI
+│   │       └── Tasks.tsx      // Main Task Page Component
+│   ├── utils/                 // Utility functions and API logic
+│   │   └── api.ts             // Axios API utility
+│   ├── App.tsx                // Main app component
+│   ├── index.css              // Global styles for the app
+│   ├── main.tsx               // Entry point for rendering React
+│   └── vite-env.d.ts          // TypeScript environment declarations
+├── .gitignore                 // Git ignore file
+├── eslint.config.js           // ESLint configuration
+├── index.html                 // Root HTML file for the app
+└── package-lock.json          // Lockfile for dependencies
+
+```
 
 #### **Backend (Node.js + Express)**
-- **Structure:**
-  ```
-  Backend (Node.js + Express)
-    ├── Routes/
-    │   ├── authRoutes.js         // Handles user authentication routes
-    │   ├── taskRoutes.js         // Handles task CRUD routes
-    │   └── analyticsRoutes.js    // Handles analytics routes
-    ├── Models/
-    │   ├── User.js               // User schema for MongoDB
-    │   └── Task.js               // Task schema for MongoDB
-    ├── Middlewares/
-    │   ├── authMiddleware.js     // Authorization middleware
-    │   └── sessionChecker.js     // Session validation middleware
-    ├── Config/
-    │   ├── db.js                 // MongoDB connection logic
-    │   └── config.js             // Centralized environment configuration
-    ├── Utils/
-    │   └── tokenUtils.js         // JWT token utilities
-    ├── Tests/
-    │   ├── auth.test.js          // Unit tests for authentication
-    │   ├── task.test.js          // Unit tests for tasks
-    │   └── helpers.js            // Testing helpers (e.g., test data setup)
-    ├── server.js                 // Entry point for backend server
-    ├── .env                      // Environment variables
-    └── package.json              // Backend dependencies and scripts
-  ```
-
+```
+Backend (Node.js + Express)
+  ├── Routes/
+  │   ├── authRoutes.js         // Handles user authentication routes
+  │   ├── taskRoutes.js         // Handles task CRUD routes
+  │   └── analyticsRoutes.js    // Handles analytics routes
+  ├── Models/
+  │   ├── User.js               // User schema for MongoDB
+  │   └── Task.js               // Task schema for MongoDB
+  ├── Middlewares/
+  │   ├── authMiddleware.js     // Authorization middleware
+  │   └── errorMiddleware.js    // Global error handler
+  ├── Config/
+  │   ├── db.js                 // MongoDB connection logic
+  │   └── config.js             // Centralized environment configuration
+  ├── Utils/
+  │   └── tokenUtils.js         // JWT token utilities
+  ├── Tests/
+  │   ├── analytics.test.js     // Unit tests for analytics
+  │   ├── auth.test.js          // Unit tests for authentication
+  │   ├── task.test.js          // Unit tests for tasks
+  │   └── helpers.js            // Testing helpers (e.g., test data setup)
+  ├── server.js                 // Entry point for backend server
+  ├── .env                      // Environment variables
+  └── package.json              // Backend dependencies and scripts
+```
