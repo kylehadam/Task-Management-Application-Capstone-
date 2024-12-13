@@ -6,16 +6,15 @@ import cors from 'cors';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import connectDB from './config/db.js';
-import config from './config/config.js';
 import authRoutes from './routes/authRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 
 // Debug Logs (only in non-production environments)
-if (config.env !== 'production') {
-  console.log('Environment:', config.env);
-  console.log('MongoDB URI:', config.mongoURI);
+if (process.env.NODE_ENV !== 'production') {
+  console.log('Environment:', process.env.NODE_ENV);
+  console.log('MongoDB URI:', process.env.MONGO_URI);
 }
 
 // Initialize Express App
@@ -27,19 +26,19 @@ app.use(cors());
 
 // MongoDB Session Store
 const sessionStore = connectMongo.create({
-  mongoUrl: config.mongoURI,
+  mongoUrl: process.env.MONGO_URI, 
   collectionName: 'sessions',
 });
 
 // Express Session Middleware
 app.use(
   session({
-    secret: config.sessionSecret,
+    secret: process.env.SESSION_SECRET, // Use SESSION_SECRET from .env
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
     cookie: {
-      secure: config.env === 'production', // HTTPS only in production
+      secure: process.env.NODE_ENV === 'production', // HTTPS only in production
       httpOnly: true, // Prevent client-side access to cookies
       maxAge: 1000 * 60 * 60 * 24, // 24 hours
     },
@@ -58,7 +57,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.use(errorMiddleware);
 
 // Catch-All Route for Undefined Routes
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });
 
