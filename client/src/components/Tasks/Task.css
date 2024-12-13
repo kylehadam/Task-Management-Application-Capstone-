@@ -1,41 +1,54 @@
 /* General page container for tasks */
 .task-page-container {
-    display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 1rem;
-    gap: 2rem;
-  }
-  
-  /* Task list styling */
-  .task-list-container {
-    flex: 1;
-    padding: 1rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* Enable scrolling if content overflows */
-    max-height: 80vh; /* Limit height for scrolling */
-  }
-  
-  /* Task form styling */
-  .task-form-container {
-    flex: 1;
-    padding: 1rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Divider between sections (optional, can be added as a border) */
-  .task-page-container::before {
-    content: '';
-    width: 1px;
-    background-color: #ccc;
-    align-self: stretch;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  gap: 2rem;
+}
+
+/* Task list styling */
+.task-list-container {
+  flex: 1;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+/* Task List Heading */
+.task-list-container h2 {
+  color: black;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  text-align: left; 
+}
+
+/* Add space between navbar and task page */
+body {
+  margin-top: 80px; 
+}
+
+/* Task form styling */
+.task-form-container {
+  flex: 1;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Divider between sections (optional, can be added as a border) */
+.task-page-container::before {
+  content: '';
+  width: 1px;
+  background-color: #ccc;
+  align-self: stretch;
+}

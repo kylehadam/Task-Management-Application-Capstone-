@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import TaskList from './TaskList';
 import TaskForm from './TaskForm';
-import './Task.css'; // Import the updated styles
+import './Task.css';
 
 interface Task {
   _id: string;
   title: string;
   description: string;
+  priority: 'High' | 'Medium' | 'Low';
+  category: string;
+  completed: boolean;
+  dueDate?: string;
 }
 
 const Tasks = () => {
@@ -38,26 +42,41 @@ const Tasks = () => {
       await axios.delete(`/api/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchTasks(); // Refresh the task list after deletion
+      fetchTasks();
     } catch {
-      setError('Failed to delete task. Please try again.');
+      setError('Failed to delete task.');
+    }
+  };
+
+  const toggleComplete = async (id: string, completed: boolean) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `/api/tasks/${id}`,
+        { completed },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      fetchTasks();
+    } catch {
+      setError('Failed to update task completion.');
     }
   };
 
   const handleFormSubmitSuccess = () => {
-    fetchTasks(); // Refresh tasks after submission
-    setSelectedTask(null); // Clear the selected task
+    fetchTasks();
+    setSelectedTask(null);
   };
 
   return (
     <div className="task-page-container">
       <div className="task-list-container">
-        <h2>Ongoing Tasks</h2>
+        <h2 style={{ color: 'black', marginBottom: '1rem' }}>Ongoing Tasks</h2>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <TaskList
           tasks={tasks}
           onEdit={setSelectedTask}
           onDelete={handleDelete}
+          onToggleComplete={toggleComplete}
         />
       </div>
       <div className="task-form-container">

@@ -1,27 +1,60 @@
 import Task from '../models/Task.js';
+import mongoose from 'mongoose';
+
+// Middleware for validations (example)
+const validateTaskFields = (req, res, next) => {
+  const { priority, category, dueDate } = req.body;
+
+  const validPriorities = ['High', 'Medium', 'Low'];
+  const validCategories = ['General', 'Work', 'Personal', 'Other'];
+
+  // Validate priority
+  if (priority && !validPriorities.includes(priority)) {
+    return res
+      .status(400)
+      .json({ error: `Invalid priority value. Allowed values: ${validPriorities.join(', ')}.` });
+  }
+
+  // Validate category
+  if (category && !validCategories.includes(category)) {
+    return res
+      .status(400)
+      .json({ error: `Invalid category value. Allowed values: ${validCategories.join(', ')}.` });
+  }
+
+  // Validate dueDate
+  if (dueDate && isNaN(Date.parse(dueDate))) {
+    return res.status(400).json({ error: 'Invalid due date format. Please provide a valid date.' });
+  }
+
+  next();
+};
 
 // Create a new task
 export const createTask = async (req, res) => {
   try {
-    const { title, description, dueDate } = req.body;
+    const { title, description, dueDate, priority = 'Medium', category = 'General', completed = false } = req.body;
     const userId = req.user.id;
 
     // Validate required fields
     if (!title || !description) {
-      return res.status(400).json({ error: 'Title and description are required' });
+      return res.status(400).json({ error: 'Title and description are required.' });
     }
 
     const task = await Task.create({
       title,
       description,
-      dueDate,
+      dueDate: dueDate || null,
+      priority,
+      category,
+      completed,
       user: userId,
     });
 
-    res.status(201).json({ message: 'Task created successfully', task });
+    res.status(201).json({ message: 'Task created successfully.', task });
   } catch (error) {
     console.error('Error creating task:', error.message);
-    res.status(500).json({ error: 'Failed to create task' });
+    res.status(500).json({ error: 'Failed to create task.' });
   }
 };
 
@@ -52,7 +85,7 @@ export const getAllTasks = async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching tasks:', error.message);
-    res.status(500).json({ error: 'Failed to fetch tasks' });
+    res.status(500).json({ error: 'Failed to fetch tasks.' });
   }
 };
 
@@ -62,48 +95,43 @@ export const updateTask = async (req, res) => {
     const { id } = req.params;
     const updates = req.body;
 
-    // Validate fields
-    if (updates.title && updates.title.trim() === '') {
-      return res.status(400).json({ error: 'Title cannot be empty' });
-    }
-
     // Validate ObjectId format
-    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(400).json({ error: 'Invalid task ID format' });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid task ID format.' });
     }
 
     const task = await Task.findByIdAndUpdate(id, updates, { new: true });
 
     if (!task) {
-      return res.status(404).json({ error: 'Task not found' });
+      return res.status(404).json({ error: 'Task not found.' });
     }
 
-    res.status(200).json({ message: 'Task updated successfully', task });
+    res.status(200).json({ message: 'Task updated successfully.', task });
   } catch (error) {
     console.error('Error updating task:', error.message);
-    res.status(500).json({ error: 'Failed to update task' });
+    res.status(500).json({ error: 'Failed to update task.' });
   }
 };
 
-// Delete a task
+// Delete a task (soft delete)
 export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
 
     // Validate ObjectId format
-    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(400).json({ error: 'Invalid task ID format' });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid task ID format.' });
     }
 
-    const task = await Task.findByIdAndDelete(id);
+    const task = await Task.findByIdAndUpdate(id, { deleted: true }, { new: true });
 
     if (!task) {
-      return res.status(404).json({ error: 'Task not found' });
+      return res.status(404).json({ error: 'Task not found.' });
     }
 
-    res.status(200).json({ message: 'Task deleted successfully' });
+    res.status(200).json({ message: 'Task deleted successfully.' });
   } catch (error) {
     console.error('Error deleting task:', error.message);
-    res.status(500).json({ error: 'Failed to delete task' });
+    res.status(500).json({ error: 'Failed to delete task.' });
   }
 };

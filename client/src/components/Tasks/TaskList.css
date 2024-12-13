@@ -1,88 +1,82 @@
+/* Task List Container */
 .task-list-container {
-    margin-top: 1.5rem;
-  }
-  
-  .task-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .task-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  }
-  
-  .task-item strong {
-    font-size: 1rem;
-    color: #333;
-    flex-grow: 1;
-    margin-right: 1rem;
-  }
-  
-  .task-item .task-controls {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .task-item button {
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 0.6rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  
-  .task-item button:hover {
-    background-color: #e65353;
-    transform: scale(1.05);
-  }
-  
-  .task-item button:active {
-    transform: scale(0.95);
-  }
-  
-  /* Styling for Add, Edit, or Delete Buttons */
-  .task-item .edit-button {
-    background-color: #61dafb;
-  }
-  
-  .task-item .edit-button:hover {
-    background-color: #4a96c9;
-  }
-  
-  .task-item .delete-button {
-    background-color: #ff6b6b;
-  }
-  
-  .task-item .delete-button:hover {
-    background-color: #e65353;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .task-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .task-item strong {
-      margin-bottom: 0.5rem;
-    }
-  
-    .task-item .task-controls {
-      width: 100%;
-      justify-content: space-between;
-    }
-  }
-  
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+/* Individual Task Item */
+.task-item {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.task-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Checkbox */
+.task-item input[type='checkbox'] {
+  margin-right: 0.8rem;
+  transform: scale(1.2);
+}
+
+/* Task Details */
+.task-item strong {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.task-item p {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.5rem 0;
+}
+
+/* Task Action Buttons */
+.task-item .task-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.task-item .task-controls button {
+  background-color: #61dafb;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.task-item .task-controls button:hover {
+  background-color: #4a96c9;
+}
+
+.task-item .delete-button {
+  background-color: #ff6b6b;
+}
+
+.task-item .delete-button:hover {
+  background-color: #e65353;
+}
+
+.task-item label {
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
+}

@@ -140,11 +140,6 @@ The project now supports full authentication and dynamic task retrieval. Signifi
 ### **Reflection**
 Significant progress was made on analytics and error handling, but testing issues remain unresolved. Offline functionality and styling tasks are partially complete and will carry over into Week 5.
 
-## **Week 5: December 9 - December 15**
-
-Here’s the updated **Week 5: December 9 - December 12** entry for your **Development Log**:
-
----
 
 ## **Week 5: December 9 - December 12**
 
@@ -167,17 +162,35 @@ Here’s the updated **Week 5: December 9 - December 12** entry for your **Devel
   - Improved button spacing and alignment.
   - Added consistent padding and font sizes for a polished appearance.
 
+- **Ongoing Tasks Enhancements:**
+  - Added a **checkbox** beside each task in the ongoing task list to quickly mark tasks as complete.
+  - Included a **black "Complete" label** next to the checkbox for clarity.
+  - Moved the **description** below the checkbox and added a "Description of Task:" label for better readability.
+  - Refactored the `TaskList` component to immediately update tasks in real-time when marked as complete.
+
+- **TaskForm Enhancements:**
+  - Added validation for the **"Category"** field to match predefined values.
+  - Improved task creation form styling for better clarity.
+  - Set proper focus behavior for improved UX when editing existing tasks.
+
 ### **Challenges**
 1. **Modals:**
    - Implementing modal pop-ups required additional testing to ensure proper behavior across browsers.
    - Hot module reloading (HMR) intermittently caused unexpected reloads due to modal integration.
 
-2. **Navigation Bar and Footer:**
+2. **Checkbox in Ongoing Tasks:**
+   - Ensuring the checkbox correctly toggled task completion in the backend required significant debugging.
+   - Managing immediate UI updates for the task list without requiring a page refresh involved additional state management updates.
+
+3. **TaskForm Validation:**
+   - Adding validation for the "Category" field to match predefined values like 'General', 'Work', 'Personal', etc., required updates to both frontend and backend.
+
+4. **Navigation Bar and Footer:**
    - Adjusting Logout button styling to match navigation links required fine-tuning for consistency.
    - Differentiating footer and navigation bar backgrounds for better visual separation required subtle but effective design changes.
 
 ### **Reflection**
-This week focused heavily on **UI/UX consistency** and resolving critical bugs related to **state management** and **routing**. The consistent theme across components significantly improved the app's usability and visual appeal.
+This week focused heavily on **UI/UX consistency** and resolving critical bugs related to **state management**, **real-time updates**, and **form validation**. Adding new features like the checkbox for marking tasks as complete significantly improved the app's usability and responsiveness.
 
 ### **Pending Tasks**
 #### **1. Signup Modal Refinement**
@@ -206,17 +219,13 @@ This week focused heavily on **UI/UX consistency** and resolving critical bugs r
     - `TaskList.css`
     - `TaskForm.css`
 
----
+#### **5. Enhanced Task Form**
+- **Goal:** Improve form error feedback by highlighting invalid fields.
+- **Files to Update:**
+  - `TaskForm.tsx`: Add per-field validation error indicators.
 
-### **Deliverables**
-- Fully functional task management UI with CRUD features.
-- Enhanced analytics dashboard with accurate statistics and new summaries.
-- Offline task management with syncing functionality.
-- Responsive and styled UI across all devices.
-
----
-
-Let me know if you need additional refinements!
+#### **6. Fix Server Testing**
+- **Goal:** 3 failing Test that need to be resolved
 
 ### Updated **File Structure**
 
