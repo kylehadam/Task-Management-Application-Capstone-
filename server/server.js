@@ -63,11 +63,9 @@ app.use((req, res, next) => {
 });
 
 // Start Server
-if (config.env !== 'test') {
-  const PORT = config.port || 5000; // Default to 5000 if not provided
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
+const PORT = process.env.PORT || 5000; // Use Render's dynamic PORT or default to 5000
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
 
 export default app;
