@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
@@ -26,20 +27,20 @@ app.use(cors());
 
 // MongoDB Session Store
 const sessionStore = connectMongo.create({
-  mongoUrl: process.env.MONGO_URI, 
+  mongoUrl: process.env.MONGO_URI,
   collectionName: 'sessions',
 });
 
 // Express Session Middleware
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, // Use SESSION_SECRET from .env
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
     cookie: {
       secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-      httpOnly: true, // Prevent client-side access to cookies
+      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // 24 hours
     },
   })
@@ -53,6 +54,17 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
+// Serve React frontend in production
+if (process.env.NODE_ENV === 'production') {
+  const __dirname = path.resolve(); // Resolve the directory path
+  app.use(express.static(path.join(__dirname, 'client/dist'))); // Serve static files from React build directory
+
+  // Handle React routing, return index.html for unknown routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+  });
+}
+
 // Global Error Handler
 app.use(errorMiddleware);
 
@@ -62,7 +74,7 @@ app.use((req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 5000; // Use Render's dynamic PORT or default to 5000
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
