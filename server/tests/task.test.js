@@ -95,9 +95,8 @@ describe('Task API', () => {
           expect(res).to.have.status(200);
           expect(res.body.tasks).to.be.an('array').that.is.not.empty;
 
-          // Ensure sorted order by title
           const titles = res.body.tasks.map((task) => task.title);
-          expect(titles).to.deep.equal([...titles].sort()); // Sorted check
+          expect(titles).to.deep.equal([...titles].sort());
           done();
         });
     });
@@ -118,7 +117,7 @@ describe('Task API', () => {
     });
 
     it('should fail to delete a non-existing task', (done) => {
-      const invalidId = '64c927b3f1a23456789abcdef'; // Random valid ObjectId
+      const invalidId = '64c927b3f1a23456789abcdef';
       chai
         .request(app)
         .delete(`/api/tasks/${invalidId}`)
