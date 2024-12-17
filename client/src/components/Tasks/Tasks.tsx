@@ -19,6 +19,7 @@ const Tasks = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
+  // Fetch tasks from the API
   const fetchTasks = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -27,15 +28,17 @@ const Tasks = () => {
       });
       setTasks(data.tasks);
       setError(null);
-    } catch {
+    } catch (error) {
       setError('Failed to fetch tasks. Please try again.');
     }
   };
 
+  // Fetch tasks on initial render
   useEffect(() => {
     fetchTasks();
   }, []);
 
+  // Handle task deletion
   const handleDelete = async (id: string) => {
     try {
       const token = localStorage.getItem('token');
@@ -43,11 +46,12 @@ const Tasks = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchTasks();
-    } catch {
+    } catch (error) {
       setError('Failed to delete task.');
     }
   };
 
+  // Handle task completion toggle
   const toggleComplete = async (id: string, completed: boolean) => {
     try {
       const token = localStorage.getItem('token');
@@ -57,11 +61,12 @@ const Tasks = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       fetchTasks();
-    } catch {
+    } catch (error) {
       setError('Failed to update task completion.');
     }
   };
 
+  // Callback for successful form submission
   const handleFormSubmitSuccess = () => {
     fetchTasks();
     setSelectedTask(null);
@@ -69,13 +74,15 @@ const Tasks = () => {
 
   return (
     <div className="task-page-container">
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {/* Display any errors */}
+      {error && <p className="error-message">{error}</p>}
+
+      {/* Task Form */}
       <div className="task-form-container">
-        <TaskForm
-          task={selectedTask}
-          onSubmitSuccess={handleFormSubmitSuccess}
-        />
+        <TaskForm task={selectedTask} onSubmitSuccess={handleFormSubmitSuccess} />
       </div>
+
+      {/* Task List */}
       <div className="task-list-container">
         <h2>Ongoing Tasks</h2>
         <TaskList
