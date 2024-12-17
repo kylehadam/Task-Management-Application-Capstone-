@@ -24,10 +24,12 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
     priority: task?.priority || 'Medium',
     category: task?.category || 'General',
     completed: task?.completed || false,
-    dueDate: task?.dueDate || '',
+    dueDate: task?.dueDate ? task.dueDate.split('T')[0] : '', // Ensure proper date format
   });
+
   const [error, setError] = useState<string | null>(null);
 
+  // Update formData when editing an existing task
   useEffect(() => {
     if (task) {
       setFormData({
@@ -36,14 +38,15 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
         priority: task.priority,
         category: task.category,
         completed: task.completed,
-        dueDate: task.dueDate || '',
+        dueDate: task.dueDate ? task.dueDate.split('T')[0] : '', // Format ISO to yyyy-MM-dd
       });
     }
   }, [task]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Submitting:', formData);
+    console.log('Form Submitted:', formData);
+
     try {
       const token = localStorage.getItem('token');
       if (task?._id) {
@@ -55,6 +58,8 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
           headers: { Authorization: `Bearer ${token}` },
         });
       }
+
+      // Clear form after successful submission
       setFormData({
         title: '',
         description: '',
@@ -63,9 +68,11 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
         completed: false,
         dueDate: '',
       });
+
       setError(null);
       onSubmitSuccess();
-    } catch {
+    } catch (err) {
+      console.error('Error submitting task:', err);
       setError('Failed to submit task. Please try again.');
     }
   };
@@ -74,6 +81,7 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
     <form onSubmit={handleSubmit} className="task-form">
       <h3>{task ? 'Edit Task' : 'Add New Task'}</h3>
       {error && <p className="error-text">{error}</p>}
+
       <div className="form-group">
         <label>Title:</label>
         <input
@@ -83,14 +91,16 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
           required
         />
       </div>
+
       <div className="form-group">
-        <label>Description of Task:</label>
+        <label>Description:</label>
         <textarea
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           required
         />
       </div>
+
       <div className="form-group">
         <label>Priority:</label>
         <select
@@ -104,14 +114,17 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
           <option value="Low">Low</option>
         </select>
       </div>
+
       <div className="form-group">
         <label>Category:</label>
         <input
           type="text"
           value={formData.category}
           onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+          required
         />
       </div>
+
       <div className="form-group">
         <label>
           <input
@@ -122,6 +135,7 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
           Completed
         </label>
       </div>
+
       <div className="form-group">
         <label>Due Date:</label>
         <input
@@ -130,6 +144,7 @@ const TaskForm = ({ task, onSubmitSuccess }: TaskFormProps) => {
           onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
         />
       </div>
+
       <button type="submit" className="submit-button">
         {task ? 'Update Task' : 'Create Task'}
       </button>

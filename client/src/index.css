@@ -1,12 +1,15 @@
 /* Global Variables */
 :root {
-  --primary-color: #61dafb; /* Blue */
-  --secondary-color: #ff6b6b; /* Red */
+  --primary-color: #61dafb; 
+  --secondary-color: #ff6b6b; 
   --text-color: white;
   --background-color: black;
   --spacing: 1rem;
   --border-radius: 5px;
   --font-family: Arial, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-small: 0.9rem;
+  --header-footer-height: 60px;
 }
 
 /* Reset */
@@ -16,6 +19,7 @@
   box-sizing: border-box;
 }
 
+/* Body */
 body {
   font-family: var(--font-family);
   color: var(--text-color);
@@ -24,15 +28,36 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-top: var(--header-footer-height); 
+  padding-bottom: var(--header-footer-height); 
 }
 
+/* Header and Footer */
 header, footer {
   background-color: var(--background-color);
   color: var(--text-color);
   padding: var(--spacing);
   text-align: center;
+  height: var(--header-footer-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
+header {
+  top: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+  bottom: 0;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation Links */
 header nav ul {
   list-style: none;
   display: flex;
@@ -48,6 +73,7 @@ header nav ul li a {
   border: 1px solid transparent;
   border-radius: var(--border-radius);
   transition: all 0.3s ease;
+  font-size: var(--font-size-base);
 }
 
 header nav ul li a:hover {
@@ -56,6 +82,7 @@ header nav ul li a:hover {
   color: var(--background-color);
 }
 
+/* Buttons */
 button {
   background-color: var(--primary-color);
   color: var(--text-color);
@@ -65,17 +92,12 @@ button {
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: var(--font-size-base);
 }
 
 button:hover {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 }
 
 /* Utility Classes */
@@ -90,3 +112,75 @@ footer {
   padding: var(--spacing);
 }
 
+.responsive-spaced {
+  margin: calc(var(--spacing) / 2);
+  padding: calc(var(--spacing) / 2);
+}
+
+.hidden {
+  display: none;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 0.9rem;
+    --spacing: 0.5rem;
+  }
+
+  header, footer {
+    height: 50px;
+    font-size: var(--font-size-small);
+  }
+
+  header nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  header nav ul li a {
+    padding: 0.3rem 0.8rem;
+    font-size: var(--font-size-small);
+  }
+
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: var(--font-size-small);
+  }
+
+  body {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  header nav ul {
+    gap: 0.3rem;
+  }
+
+  button {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* App container for overall layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content spacing */
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  margin-top: 60px; /* Adjust for navigation bar height */
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0.5rem;
+  }
+}

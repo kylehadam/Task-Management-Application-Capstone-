@@ -52,3 +52,97 @@ body {
   background-color: #ccc;
   align-self: stretch;
 }
+
+.task-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.task-form-container,
+.task-list-container {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Container */
+.task-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1rem;
+  padding: 0 1rem;
+}
+
+/* Task Form */
+.task-form-container {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.task-form-container h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Task List Section */
+.task-list-container {
+  width: 100%;
+}
+
+.task-category {
+  margin-bottom: 1.5rem;
+}
+
+.task-category-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Grid Layout for Desktop */
+@media (min-width: 768px) {
+  .task-page-container {
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 2rem auto;
+    gap: 2rem;
+  }
+
+  .task-form-container,
+  .task-list-container {
+    flex: 1;
+    padding: 1.5rem;
+  }
+
+  .task-category ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+.task-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.task-form-container,
+.task-list-container {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

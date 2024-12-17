@@ -58,3 +58,7 @@
   background-color: #e65353;
   border-color: #ff6b6b;
 }
+
+body.no-scroll {
+  overflow: hidden;
+}

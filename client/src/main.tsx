@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
 
-const rootElement = document.getElementById('root') as HTMLElement | null;
+// Select the root element where the React app will render
+const rootElement = document.getElementById('root');
 
 if (rootElement) {
   createRoot(rootElement).render(
@@ -12,5 +13,7 @@ if (rootElement) {
     </StrictMode>
   );
 } else {
-  console.error("Root element not found. Make sure 'root' exists in index.html.");
+  console.error(
+    "Error: Root element not found. Verify the 'id=\"root\"' exists in index.html."
+  );
 }

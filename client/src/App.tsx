@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import Tasks from './components/Tasks/Tasks';
@@ -9,21 +9,27 @@ import Footer from './components/Footer/Footer';
 import LandingPage from './components/LandingPage/LandingPage';
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    Boolean(localStorage.getItem('token')) // Check if a token exists in localStorage
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check authentication state on app load
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove token from localStorage
-    setIsAuthenticated(false); // Update state to reflect logout
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
   };
 
   return (
     <Router>
-      <div>
+      <div className="app-container">
         {/* Navigation Bar visible only when user is authenticated */}
         {isAuthenticated && <NavigationBar onLogout={handleLogout} />}
-        <main>
+        <main className="main-content">
           <Routes>
             {/* Public Routes */}
             {!isAuthenticated ? (
@@ -49,7 +55,7 @@ function App() {
             )}
           </Routes>
         </main>
-        {/* Footer visible on all routes */}
+        {/* Footer always visible */}
         <Footer />
       </div>
     </Router>

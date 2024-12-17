@@ -69,20 +69,20 @@ const Tasks = () => {
 
   return (
     <div className="task-page-container">
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <div className="task-form-container">
+        <TaskForm
+          task={selectedTask}
+          onSubmitSuccess={handleFormSubmitSuccess}
+        />
+      </div>
       <div className="task-list-container">
-        <h2 style={{ color: 'black', marginBottom: '1rem' }}>Ongoing Tasks</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <h2>Ongoing Tasks</h2>
         <TaskList
           tasks={tasks}
           onEdit={setSelectedTask}
           onDelete={handleDelete}
           onToggleComplete={toggleComplete}
-        />
-      </div>
-      <div className="task-form-container">
-        <TaskForm
-          task={selectedTask}
-          onSubmitSuccess={handleFormSubmitSuccess}
         />
       </div>
     </div>

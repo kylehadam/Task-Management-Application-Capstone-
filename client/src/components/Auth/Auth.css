@@ -1,121 +1,159 @@
+/* Container for the authentication page */
 .auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #333, #111);
-    color: white;
-  }
-  
-  .auth-form {
-    width: 100%;
-    max-width: 400px;
-    padding: 2rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #333;
-  }
-  
-  .auth-form h2 {
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  .auth-form label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  .auth-form input {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .auth-form input:focus {
-    border-color: #61dafb;
-    outline: none;
-    box-shadow: 0 0 4px rgba(97, 218, 251, 0.5);
-  }
-  
-  .auth-form .button-group {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  
-  .auth-form button {
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background: #61dafb;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .auth-form button:hover {
-    opacity: 0.9;
-  }
-  
-  .auth-form button:last-child {
-    background: #ff6b6b;
-  }
-  
-  .auth-form button:last-child:hover {
-    background: #e65353;
-  }
-  
-  /* Dialog Overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4a96c9, #1c1c1c);
+  padding: 1rem;
+}
+
+/* Styling for the authentication form */
+.auth-form {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+}
+
+.auth-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #4a96c9;
+}
+
+/* Form group for input fields */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #61dafb;
+  outline: none;
+  box-shadow: 0 0 4px rgba(97, 218, 251, 0.5);
+}
+
+/* Button container for form buttons */
+.button-group {
+  display: flex;
+  flex-direction: column; /* Stacks buttons vertically for better mobile UX */
+  gap: 1rem;
+}
+
+button {
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type='submit'] {
+  background-color: #4a96c9;
+}
+
+button[type='submit']:hover {
+  background-color: #3a7fb7;
+  transform: translateY(-2px);
+}
+
+button.secondary-btn {
+  background-color: #ff6b6b;
+}
+
+button.secondary-btn:hover {
+  background-color: #e65353;
+  transform: translateY(-2px);
+}
+
+/* Dialog Overlay */
 .dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Dialog Box */
+.dialog {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  max-width: 400px;
+  width: 90%;
+}
+
+.dialog p {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.dialog-button {
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dialog-button:hover {
+  background-color: #4a96c9;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .auth-form {
+    padding: 1rem;
   }
-  
-  /* Dialog Box */
-  .dialog {
-    background: white;
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    max-width: 400px;
-    width: 90%;
+
+  .auth-form h2 {
+    font-size: 1.5rem;
   }
-  
-  .dialog p {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: #333;
+
+  .form-group input {
+    font-size: 0.9rem;
+    padding: 0.6rem;
   }
-  
-  .dialog-button {
-    background-color: #61dafb;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.2rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.6rem;
   }
-  
-  .dialog-button:hover {
-    background-color: #4a96c9;
-  }
-  
+}
+
+body.no-scroll {
+  overflow: hidden;
+}

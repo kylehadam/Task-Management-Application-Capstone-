@@ -1,7 +1,17 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './LandingPage.css';
 
 const LandingPage = () => {
+  // Prevent scrolling when the component mounts
+  useEffect(() => {
+    document.body.classList.add('no-scroll'); 
+
+    return () => {
+      document.body.classList.remove('no-scroll'); 
+    };
+  }, []);
+
   return (
     <div className="landing-container">
       <h1>Welcome to Task Management App</h1>

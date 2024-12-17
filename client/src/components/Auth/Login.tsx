@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Auth.css';
@@ -15,6 +15,15 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Prevent scrolling when the component mounts
+  useEffect(() => {
+    document.body.classList.add('no-scroll'); // Add no-scroll class
+
+    return () => {
+      document.body.classList.remove('no-scroll'); // Remove no-scroll class on unmount
+    };
+  }, []);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -25,8 +34,8 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
       const { data } = await axios.post('/api/auth/login', { email, password });
       localStorage.setItem('token', data.token);
       setMessage('Login successful! Redirecting...');
-      setError(null);
       onLoginSuccess();
+      setTimeout(() => navigate('/tasks'), 1000); // Add delay for smoother transition
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.error || 'Login failed.');
@@ -45,7 +54,7 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
         {error && <p className="error-message">{error}</p>}
         {message && <p className="success-message">{message}</p>}
         <form onSubmit={handleLogin}>
-          <div>
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
               id="email"
@@ -54,9 +63,10 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
               onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
+              placeholder="Enter your email"
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="password">Password:</label>
             <input
               id="password"
@@ -65,13 +75,14 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
+              placeholder="Enter your password"
             />
           </div>
           <div className="button-group">
             <button type="submit" disabled={loading}>
               {loading ? 'Logging in...' : 'Login'}
             </button>
-            <button type="button" onClick={() => navigate('/')}>
+            <button type="button" onClick={() => navigate('/')} className="secondary-btn">
               Return
             </button>
           </div>

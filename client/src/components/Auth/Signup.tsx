@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Auth.css';
@@ -14,8 +14,17 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [showDialog, setShowDialog] = useState(false); // Popup state
+  const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
+
+  // Prevent scrolling when the component mounts
+  useEffect(() => {
+    document.body.classList.add('no-scroll'); // Add no-scroll class
+
+    return () => {
+      document.body.classList.remove('no-scroll'); // Remove no-scroll class on unmount
+    };
+  }, []);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,14 +34,13 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
 
     try {
       const { data } = await axios.post('/api/auth/register', { name, email, password });
-      console.log('Signup successful:', data); // Debug log
-      localStorage.setItem('token', data.token); // Save token for authenticated routes
-      setMessage('Signup successful!'); 
-      setShowDialog(true); // Show popup dialog
-      console.log('Dialog should appear'); // Debug log
-      onSignupSuccess(); // Notify App of successful signup
+      console.log('Signup successful:', data);
+      localStorage.setItem('token', data.token);
+      setMessage('Signup successful!');
+      setShowDialog(true);
+      onSignupSuccess();
     } catch (err) {
-      console.error('Signup failed:', err); // Debug log
+      console.error('Signup failed:', err);
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.error || 'Signup failed.');
       } else {
@@ -44,8 +52,7 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
   };
 
   const handleDialogClose = () => {
-    console.log('Dialog closed, navigating to tasks'); // Debug log
-    setShowDialog(false); // Close dialog
+    setShowDialog(false);
     navigate('/tasks'); // Navigate to tasks page
   };
 
@@ -65,6 +72,7 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
               onChange={(e) => setName(e.target.value)}
               required
               disabled={loading}
+              placeholder="Enter your name"
             />
           </div>
           <div className="form-group">
@@ -76,6 +84,7 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
               onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
+              placeholder="Enter your email"
             />
           </div>
           <div className="form-group">
@@ -87,13 +96,18 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
+              placeholder="Enter your password"
             />
           </div>
           <div className="button-group">
             <button type="submit" disabled={loading}>
               {loading ? 'Signing Up...' : 'Sign Up'}
             </button>
-            <button type="button" className="return-btn" onClick={() => navigate('/')}>
+            <button
+              type="button"
+              className="return-btn"
+              onClick={() => navigate('/')}
+            >
               Return
             </button>
           </div>
@@ -104,7 +118,9 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
         <div className="dialog-overlay">
           <div className="dialog">
             <p>{message}</p>
-            <button onClick={handleDialogClose} className="dialog-button">OK</button>
+            <button onClick={handleDialogClose} className="dialog-button">
+              OK
+            </button>
           </div>
         </div>
       )}

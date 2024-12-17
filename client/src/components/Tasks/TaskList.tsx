@@ -23,33 +23,21 @@ const TaskList = ({ tasks, onEdit, onDelete, onToggleComplete }: TaskListProps) 
       <ul>
         {tasks.map((task) => (
           <li key={task._id} className="task-item">
-            <div>
-              <strong>Title: {task.title}</strong>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={(e) => onToggleComplete(task._id, e.target.checked)}
-                />
-                Complete
-              </label>
-            </div>
-            <p className="description">
-              <strong>Description of Task:</strong> {task.description}
-            </p>
-            <p className={`priority-${task.priority.toLowerCase()}`}>Priority: {task.priority}</p>
-            <p className="category">Category: {task.category}</p>
-            {task.dueDate && <p>Due Date: {new Date(task.dueDate).toLocaleDateString()}</p>}
-            <div className="task-controls">
-              <button className="edit-button" onClick={() => onEdit(task)}>
-                Edit
-              </button>
-              <button className="delete-button" onClick={() => onDelete(task._id)}>
-                Delete
-              </button>
-            </div>
+            <strong>{task.title}</strong>
+            <p>Description: {task.description}</p>
+            <p>Category: {task.category}</p>
+            <p>Priority: {task.priority}</p>
+            {task.dueDate && <p>Due: {new Date(task.dueDate).toLocaleDateString()}</p>}
+            <label>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={(e) => onToggleComplete(task._id, e.target.checked)}
+              />
+              Completed
+            </label>
+            <button onClick={() => onEdit(task)}>Edit</button>
+            <button onClick={() => onDelete(task._id)}>Delete</button>
           </li>
         ))}
       </ul>

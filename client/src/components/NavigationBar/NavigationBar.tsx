@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-import './NavigationBar.css'; // Import external CSS file for styles
+import { useState } from 'react';
+import './NavigationBar.css';
 
 interface NavigationBarProps {
   onLogout: () => void;
@@ -7,26 +8,35 @@ interface NavigationBarProps {
 
 const NavigationBar: React.FC<NavigationBarProps> = ({ onLogout }) => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    onLogout(); // Call the logout function passed from App
-    navigate('/login'); // Redirect to login page after logout
+    onLogout();
+    navigate('/login');
   };
 
   return (
     <header className="navbar">
-      <nav>
-        <ul className="nav-list">
-          <li className="nav-item">
-            <Link to="/tasks" className="nav-link">Tasks</Link>
+      {/* Hamburger Menu - Always Hidden on Desktop */}
+      <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
+        <div className={`hamburger ${menuOpen ? 'open' : ''}`}>
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </div>
+      </div>
+
+      {/* Navigation Links */}
+      <nav className={`nav-list ${menuOpen ? 'active' : ''}`}>
+        <ul>
+          <li>
+            <Link to="/tasks" onClick={() => setMenuOpen(false)}>Tasks</Link>
           </li>
-          <li className="nav-item">
-            <Link to="/dashboard" className="nav-link">Dashboard</Link>
+          <li>
+            <Link to="/dashboard" onClick={() => setMenuOpen(false)}>Dashboard</Link>
           </li>
-          <li className="nav-item">
-            <button onClick={handleLogout} className="logout-button">
-              Logout
-            </button>
+          <li>
+            <button onClick={handleLogout}>Logout</button>
           </li>
         </ul>
       </nav>
