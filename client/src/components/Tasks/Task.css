@@ -1,93 +1,141 @@
-/* General Page Container */
-.task-page-container {
-  display: flex;
-  flex-direction: column; /* Stacked layout */
-  gap: 1.5rem;
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 800px; /* Centered with a maximum width */
-  margin: 0 auto; /* Center the page horizontally */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
   padding: 1rem;
   box-sizing: border-box;
 }
 
-/* Task Form Container: Add New Task Section */
-.task-form-container {
-  width: 100%;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Modal Content */
+.modal-content {
+  background: #fff;
   padding: 1.5rem;
-}
-
-.task-form-container h3 {
-  text-align: center;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-/* Task List Container: Ongoing Tasks Section */
-.task-list-container {
-  width: 100%;
-  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
+  width: 100%;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.task-list-container h2 {
-  text-align: center;
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: black;
-}
-
-/* Task Categories */
-.task-category {
-  margin-bottom: 1.5rem;
-}
-
-.task-category-title {
-  font-size: 1.3rem;
-  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: #333;
-  text-align: left;
 }
 
-/* Task Items */
-.task-category ul {
+.task-list-title {
+  color: black;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Modal Close Button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.modal-close:hover {
+  color: #ff6b6b;
+}
+
+/* Buttons */
+.modal-buttons {
   display: flex;
-  flex-direction: column; /* Always stacked */
   gap: 1rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  justify-content: flex-end;
+  margin-top: 1rem;
 }
 
-.task-category li {
-  background: #f9f9f9;
-  padding: 1rem;
-  border: 1px solid #ddd;
+.modal-buttons button {
+  padding: 0.8rem 1.2rem;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.task-category li:hover {
-  transform: translateY(-3px);
+.modal-buttons .confirm-button {
+  background-color: #61dafb;
+  color: white;
 }
 
-/* Responsive Fixes */
+.modal-buttons .confirm-button:hover {
+  background-color: #4a96c9;
+}
+
+.modal-buttons .cancel-button {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.modal-buttons .cancel-button:hover {
+  background-color: #e65353;
+}
+
+/* Add Task Button */
+.add-task-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.add-task-button:hover {
+  background-color: #4a96c9;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .task-page-container {
-    padding: 0.5rem;
-    gap: 1rem;
+  .modal-content {
+    max-width: 95%;
+    padding: 1rem;
+    max-height: 85vh;
   }
 
-  .task-form-container,
-  .task-list-container {
-    padding: 1rem;
+  .modal-close {
+    top: 8px;
+    right: 8px;
+    font-size: 1.3rem;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

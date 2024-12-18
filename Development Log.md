@@ -313,7 +313,7 @@ This week focused heavily on **UI/UX consistency**, **state management**, **form
 2. **Dashboard Functionality**:  
    - The Dashboard remains a **low priority** as it requires additional API testing and integration with the `/analytics/stats` endpoint. If time permits, I will revisit it; otherwise, it will remain incomplete for this submission.  
 
-3. **Scrolling Issues**:  
+3. **Scrolling Issues**:  - FIXED
    - There are some persistent **scrolling issues** in both mobile and desktop layouts, particularly around nested scrollbars in the Tasks section. While I have addressed some problems, I may not have enough time to fully resolve this issue.  
 
 4. **Server-Side Testing**:  
