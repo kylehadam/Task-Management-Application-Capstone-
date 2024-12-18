@@ -13,7 +13,7 @@ The **Task Management Application** is a web-based tool to help users manage tas
   - Filter and sort tasks by deadlines, priorities, and tags.
   - Real-time task updates with immediate UI feedback when marking tasks complete.
 - **Analytics Dashboard**:
-  - Visualize task trends and completion rates using APIs.
+  - Visualize task trends and completion rates using **Recharts**.
   - Planned enhancements include weekly and monthly summaries.
 - **Error Handling**:
   - Centralized error middleware ensures consistent and standardized API error responses.
@@ -21,7 +21,7 @@ The **Task Management Application** is a web-based tool to help users manage tas
 ---
 
 ## **Technology Stack**
-- **Frontend**: React, Vite, TypeScript, React Router, Axios  
+- **Frontend**: React, Vite, TypeScript, React Router, Axios, React Query, Recharts  
 - **Backend**:  
   - **Node.js**: JavaScript runtime for server-side logic.  
   - **Express**: Web framework for building APIs and middleware.  
@@ -68,7 +68,7 @@ The app is live and tested prior to deployment: **[Task Management Application](
    npm start
    ```
 2. Access the application:
-   - **Frontend**: [http://localhost:5000](http://localhost:5000)
+   - **Frontend**: [http://localhost:5173](http://localhost:5173)
    - **API Endpoints**: Accessible from the same base URL.
 
 Alternatively, during development, you can run the frontend and backend servers concurrently:
@@ -104,6 +104,8 @@ For development and testing, add:
 - **Frontend**:
   - Unified button styling, improved task forms, and enhanced real-time task updates.
   - Modals for feedback on signup and other key actions.
+  - Visualized task trends and completion rates using **Recharts**.
+  - Leveraged **React Query** for efficient and declarative state management.
 - **Backend**:
   - Comprehensive API for authentication, tasks, and analytics.
   - Supports filtering, sorting, pagination, and real-time updates.
@@ -120,11 +122,42 @@ For development and testing, add:
 
 ## **Pending Features**
 1. **Enhanced Analytics**:
-   - Weekly and monthly summaries for task trends.
+   - Weekly and monthly summaries for task trends, leveraging **Recharts** for data visualization.
+   - Interactive filtering by date ranges or task types to provide deeper insights.
+   - Drill-down capabilities to view task completion details for specific periods.
+
 2. **Styling**:
-   - Ensure full responsiveness and refine UI/UX.
+   - Ensure full responsiveness across all devices, including mobile and tablet screens.
+   - Refine UI/UX for a seamless user experience:
+     - Consistent component styling.
+     - Improved typography and spacing.
+   - Introduce a **Dark Mode** feature with a toggle for user preference.
+
 3. **API Enhancements**:
-   - Add support for bulk task operations (e.g., deleting or updating multiple tasks).
+   - Add support for bulk task operations, such as deleting or updating multiple tasks simultaneously.
+   - Implement efficient pagination for large task lists.
+   - Extend error handling for better user feedback during API failures.
+
+4. **Testing and Error Handling**:
+   - Fix the two broken tests and aim for comprehensive test coverage across components and API integrations.
+   - Add error boundaries in React to gracefully handle unexpected crashes.
+   - Enhance form validation with real-time feedback for better user input experience.
+
+5. **Task Collaboration**:
+   - Introduce task sharing features:
+     - Assign tasks to collaborators.
+     - Enable sharing tasks via links or email.
+   - Explore real-time collaboration features for task updates.
+
+6. **Dashboard Functionality**:
+   - Implement the planned dashboard to provide users with a quick overview of task progress.
+   - Use **Recharts** for detailed data visualization and trend analysis.
+   - Allow customization of displayed metrics and dashboard layout.
+
+7. **Performance Improvements**:
+   - Optimize app performance with lazy loading for routes and components.
+   - Implement Service Workers to enable offline access and faster loading times for frequently accessed data.
+   - Analyze and reduce bundle sizes for quicker initial loads.
 
 ---
 
