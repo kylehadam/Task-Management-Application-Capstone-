@@ -54,7 +54,7 @@
 /* Button container for form buttons */
 .button-group {
   display: flex;
-  flex-direction: column; /* Stacks buttons vertically for better mobile UX */
+  flex-direction: column; 
   gap: 1rem;
 }
 
@@ -156,4 +156,12 @@ button.secondary-btn:hover {
 
 body.no-scroll {
   overflow: hidden;
+}
+
+.error-text {
+  color: red; 
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: -1rem; 
+  margin-bottom: 1rem;
 }

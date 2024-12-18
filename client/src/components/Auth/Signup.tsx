@@ -17,12 +17,10 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
   const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
 
-  // Prevent scrolling when the component mounts
   useEffect(() => {
-    document.body.classList.add('no-scroll'); // Add no-scroll class
-
+    document.body.classList.add('no-scroll');
     return () => {
-      document.body.classList.remove('no-scroll'); // Remove no-scroll class on unmount
+      document.body.classList.remove('no-scroll');
     };
   }, []);
 
@@ -53,7 +51,7 @@ const Signup = ({ onSignupSuccess }: SignupProps) => {
 
   const handleDialogClose = () => {
     setShowDialog(false);
-    navigate('/tasks'); // Navigate to tasks page
+    navigate('/tasks');
   };
 
   return (

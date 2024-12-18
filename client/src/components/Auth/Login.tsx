@@ -15,7 +15,6 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Prevent scrolling when the component mounts
   useEffect(() => {
     document.body.classList.add('no-scroll'); // Add no-scroll class
 
@@ -51,8 +50,8 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
     <div className="auth-container">
       <div className="auth-form">
         <h2>Login</h2>
-        {error && <p className="error-message">{error}</p>}
-        {message && <p className="success-message">{message}</p>}
+        {error && <p className="error-text">{error}</p>}
+        {message && <p className="success-text">{message}</p>}
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
