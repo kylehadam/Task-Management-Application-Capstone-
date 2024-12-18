@@ -361,6 +361,31 @@ This week focused heavily on **UI/UX consistency**, **state management**, **form
   - Ensured the "Logout" button aligns perfectly with the menu items.
   - Moved the hamburger menu to the left and removed unnecessary labels ("App Menu") on mobile.
 
+#### **Backend Progress**
+- **Transition to JWT Authentication**:
+  - Removed session-based authentication logic and replaced it with JWT authentication.
+  - Updated `authMiddleware.js` to validate and decode JWT tokens.
+  - Ensured smooth integration of JWT across all routes and controllers.
+
+- **Error Handling Enhancements**:
+  - Consolidated error handling into a centralized `errorMiddleware.js` file.
+  - Standardized error responses for better consistency and debugging.
+
+- **Validation Improvements**:
+  - Added input validation for:
+    - Priority and category fields in `taskController.js`.
+    - Email and password fields in `authController.js`.
+
+- **Testing Simplifications**:
+  - Removed unused testing files (`hooks.js` and `setup.js`).
+  - Updated existing tests to align with the JWT-based authentication model.
+
+#### **Pending Tasks**:
+1. **Analytics Testing**:
+   - Address the remaining discrepancies in analytics endpoint test results.
+2. **Improved Error Coverage**:
+   - Enhance test coverage for error cases in all APIs (e.g., malformed requests, invalid input).
+
 ---
 
 ### **Challenges**
@@ -381,78 +406,100 @@ This week focused heavily on **UI/UX consistency**, **state management**, **form
 - Ensuring the app runs smoothly on mobile and desktop devices.
 - Addressing any critical bugs that directly impact the user experience.
 
-### Updated **File Structure**
+### **Reflection**
+This week was pivotal in optimizing the backend and frontend and getting ready for submisson. Time wasnot my friend 
 
+# **Project File Structure**
 #### **Frontend (Vite + React)**
 ```
 Frontend (Vite + React)
-client/
-├── node_modules/              // Node.js dependencies
-├── public/
-│   ├── favicon.ico            // Favicon for the app
-│   └── vite.svg               // Vite's default asset
-├── src/
-│   ├── assets/                // Static assets (e.g., images, icons)
-│   ├── components/            // React components
-│   │   ├── Auth/              // Authentication components
-│   │   │   ├── Auth.css       // Styling for Login & Signup
-│   │   │   ├── Login.tsx      // Login component
-│   │   │   └── Signup.tsx     // Signup component
-│   │   ├── Dashboard/         // Analytics dashboard component
-│   │   │   └── Dashboard.tsx  // Dashboard logic and UI
-│   │   ├── Footer/            // Footer component
-│   │   │   ├── Footer.css     // Styling for the Footer
-│   │   │   └── Footer.tsx     // Footer logic and UI
-│   │   ├── LandingPage/       // Landing Page components
-│   │   │   ├── LandingPage.css // Styling for the Landing Page
-│   │   │   └── LandingPage.tsx // Landing Page logic and UI
-│   │   ├── NavigationBar/     // Navigation Bar components
-│   │   │   ├── NavigationBar.css // Styling for the Navigation Bar
-│   │   │   └── NavigationBar.tsx // Navigation Bar logic and UI
-│   │   └── Tasks/             // Task management components
-│   │       ├── Task.css       // Styling for the Task List
-│   │       ├── TaskForm.css   // Styling for the Task Form
-│   │       ├── TaskForm.tsx   // Task Form logic and UI
-│   │       ├── TaskList.css   // Styling for the Task List
-│   │       ├── TaskList.tsx   // Task List logic and UI
-│   │       └── Tasks.tsx      // Main Task Page Component
-│   ├── utils/                 // Utility functions and API logic
-│   │   └── api.ts             // Axios API utility
-│   ├── App.tsx                // Main app component
-│   ├── index.css              // Global styles for the app
-│   ├── main.tsx               // Entry point for rendering React
-│   └── vite-env.d.ts          // TypeScript environment declarations
-├── .gitignore                 // Git ignore file
-├── eslint.config.js           // ESLint configuration
-├── index.html                 // Root HTML file for the app
-└── package-lock.json          // Lockfile for dependencies
+|-- client/                      # Frontend React/Vite Application
+|   |-- dist/                    # Production-ready files
+|   |   |-- index.html           # Base HTML File
+|   |-- node_modules/            # Installed dependencies
+|   |-- public/                  # Static assets
+|   |   |-- favicon.ico
+|   |   |-- vite.svg
+|   |-- src/                     # Source files for the frontend
+|   |   |-- assets/              # Static files or images
+|   |   |   |-- react.svg
+|   |   |-- components/          # UI Components
+|   |   |   |-- Auth/            # Authentication Components
+|   |   |   |   |-- Auth.css
+|   |   |   |   |-- Login.tsx
+|   |   |   |   |-- Signup.tsx
+|   |   |   |-- Dashboard/       # Dashboard Logic
+|   |   |   |   |-- Dashboard.tsx
+|   |   |   |-- Footer/          # Footer UI
+|   |   |   |   |-- Footer.css
+|   |   |   |   |-- Footer.tsx
+|   |   |   |-- LandingPage/     # Landing Page Components
+|   |   |   |   |-- LandingPage.css
+|   |   |   |   |-- LandingPage.tsx
+|   |   |   |-- NavigationBar/   # Navigation Bar Components
+|   |   |   |   |-- NavigationBar.css
+|   |   |   |   |-- NavigationBar.tsx
+|   |   |   |-- Tasks/           # Task Management Components
+|   |   |   |   |-- Task.css
+|   |   |   |   |-- TaskForm.css
+|   |   |   |   |-- TaskForm.tsx
+|   |   |   |   |-- TaskList.css
+|   |   |   |   |-- TaskList.tsx
+|   |   |   |   |-- Tasks.tsx
+|   |   |-- utils/               # Utility Functions
+|   |   |   |-- api.ts
+|   |   |-- App.tsx              # Main App Component
+|   |   |-- index.css            # Global Stylesheet
+|   |   |-- main.tsx             # Entry Point for the React App
+|   |   |-- vite-env.d.ts        # TypeScript Declarations for Vite
+|   |-- index.html               # Base HTML File
+|   |-- eslint.config.js         # ESLint Configuration
+|   |-- package.json             # Frontend Dependencies & Scripts
+|   |-- vite.config.ts           # Vite Configuration
 
 ```
 
 #### **Backend (Node.js + Express)**
 ```
-Backend (Node.js + Express)
-  ├── Routes/
-  │   ├── authRoutes.js         // Handles user authentication routes
-  │   ├── taskRoutes.js         // Handles task CRUD routes
-  │   └── analyticsRoutes.js    // Handles analytics routes
-  ├── Models/
-  │   ├── User.js               // User schema for MongoDB
-  │   └── Task.js               // Task schema for MongoDB
-  ├── Middlewares/
-  │   ├── authMiddleware.js     // Authorization middleware
-  │   └── errorMiddleware.js    // Global error handler
-  ├── Config/
-  │   ├── db.js                 // MongoDB connection logic
-  │   └── config.js             // Centralized environment configuration
-  ├── Utils/
-  │   └── tokenUtils.js         // JWT token utilities
-  ├── Tests/
-  │   ├── analytics.test.js     // Unit tests for analytics
-  │   ├── auth.test.js          // Unit tests for authentication
-  │   ├── task.test.js          // Unit tests for tasks
-  │   └── helpers.js            // Testing helpers (e.g., test data setup)
-  ├── server.js                 // Entry point for backend server
-  ├── .env                      // Environment variables
-  └── package.json              // Backend dependencies and scripts
+|-- server/                      # Backend Node.js/Express Server
+|   |-- config/                  # Server Configuration Files
+|   |   |-- config.js
+|   |   |-- db.js
+|   |-- controllers/             # Request Controllers
+|   |   |-- analyticsController.js
+|   |   |-- authController.js
+|   |   |-- taskController.js
+|   |-- middlewares/             # Middleware Functions
+|   |   |-- authMiddleware.js
+|   |   |-- errorMiddleware.js
+|   |   |-- sessionChecker.js    # Removed for Redundancy
+|   |-- models/                  # MongoDB Schemas
+|   |   |-- Session.js           # Removed for Redundancy
+|   |   |-- Task.js
+|   |   |-- User.js
+|   |-- routes/                  # API Routes
+|   |   |-- analyticsRoutes.js
+|   |   |-- authRoutes.js
+|   |   |-- taskRoutes.js
+|   |-- tests/                   # Backend Tests
+|   |   |-- analytics.test.js
+|   |   |-- auth.test.js
+|   |   |-- task.test.js
+|   |   |-- helpers.js           # Removed for Redundancy
+|   |   |-- hooks.js             # Removed for Redundancy
+|   |   |-- setup.js
+|   |-- utils/                   # Utility Functions
+|   |   |-- tokenUtils.js
+|   |-- .env                     # Environment Variables
+|   |-- server.js                # Backend Server Entry Point
+|   |-- package.json             # Backend Dependencies & Scripts
+
 ```
+
+#### **Root Directory**
+```
+|-- README.md                    # Project Documentation
+|-- Development Log.md           # Development Progress Log
+
+
+

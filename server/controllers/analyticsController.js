@@ -11,7 +11,7 @@ export const getTaskCompletionStats = async (req, res) => {
 
     // Aggregate statistics for completed and pending tasks
     const stats = await Task.aggregate([
-      { $match: { user: userId } }, // Filter tasks by user
+      { $match: { user: userId } }, 
       {
         $group: {
           _id: null,
