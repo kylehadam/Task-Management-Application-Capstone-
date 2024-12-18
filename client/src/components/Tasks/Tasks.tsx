@@ -82,7 +82,6 @@ const Tasks = () => {
 
   return (
     <div className="task-page-container">
-      {/* Display Errors */}
       {error && <p className="error-message">{error}</p>}
 
       {/* Button to Add New Task */}

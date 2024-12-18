@@ -28,7 +28,7 @@ The **Task Management Application** is a web-based tool to help users manage tas
 - **Testing**: Mocha, Chai, Jest
 
 ## Live Deployment
-The app is live at **[Task Management Application](https://task-management-application-0u47.onrender.com)**.
+The app was live at and tested prior to deployment **[Task Management Application](https://task-management-application-0u47.onrender.com)**.
 
 ## How to Run the Project Locally
 1. Clone the repository:

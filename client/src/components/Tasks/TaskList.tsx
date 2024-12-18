@@ -18,29 +18,53 @@ interface TaskListProps {
 }
 
 const TaskList = ({ tasks, onEdit, onDelete, onToggleComplete }: TaskListProps) => {
+  const renderTasks = (priority: 'High' | 'Medium' | 'Low') => {
+    const filteredTasks = tasks.filter((task) => task.priority === priority);
+
+    return (
+      <div className={`task-category task-category-${priority.toLowerCase()}`}>
+        <h3 className="task-category-title">{priority} Priority</h3>
+        <ul className="task-grid">
+          {filteredTasks.map((task) => {
+            return (
+              <li
+                key={task._id}
+                className={`task-item ${task.completed ? 'completed' : ''}`}
+              >
+                <strong>{task.title}</strong>
+                <p>Description: {task.description}</p>
+                <p>Category: {task.category}</p>
+                {task.dueDate && <p>Due: {new Date(task.dueDate).toLocaleDateString()}</p>}
+                {task.completed && (
+                  <p className="completed-label">Completed</p>
+                )}
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={(e) => onToggleComplete(task._id, e.target.checked)} />
+                  &nbsp;&nbsp;&nbsp;Mark as Complete
+                </label>
+
+                <div className="task-controls">
+                  <button onClick={() => onEdit(task)}>Edit</button>
+                  <button onClick={() => onDelete(task._id)} className="delete-button">
+                    Delete
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  };
+
   return (
     <div className="task-list-container">
-      <ul>
-        {tasks.map((task) => (
-          <li key={task._id} className="task-item">
-            <strong>{task.title}</strong>
-            <p>Description: {task.description}</p>
-            <p>Category: {task.category}</p>
-            <p>Priority: {task.priority}</p>
-            {task.dueDate && <p>Due: {new Date(task.dueDate).toLocaleDateString()}</p>}
-            <label>
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={(e) => onToggleComplete(task._id, e.target.checked)}
-              />
-              Completed
-            </label>
-            <button onClick={() => onEdit(task)}>Edit</button>
-            <button onClick={() => onDelete(task._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      {renderTasks('High')}
+      {renderTasks('Medium')}
+      {renderTasks('Low')}
     </div>
   );
 };

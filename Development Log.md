@@ -231,101 +231,155 @@ This week focused heavily on **UI/UX consistency**, **state management**, **form
 #### **6. Fix Server Testing**
 - **Goal:** Resolve the 3 failing tests identified during deployment.
 
-
 ## **Week 6: December 6 - December 20**
 
-### **Development Status**  
+### **Development Status**
 
-#### **Frontend Progress**  
-- **Global Improvements**:  
-  - **index.html**  
-    - Added `<meta name="viewport">` for mobile responsiveness.  
-    - Ensured a proper description meta tag for SEO optimization.  
+#### **Frontend Progress**
+- **Global Improvements**:
+  - **index.html**
+    - Added `<meta name="viewport">` for mobile responsiveness.
+    - Ensured a proper description meta tag for SEO optimization.
 
-  - **main.tsx**  
-    - No significant changes were required.  
+  - **main.tsx**
+    - No significant changes were required.
 
-  - **App.tsx**  
-    - Reorganized layout to support a cleaner UI for tasks and navigation on mobile and desktop views.  
-    - Refactored the `App.tsx` structure to improve component flow and user experience.  
+  - **App.tsx**
+    - Reorganized layout to support a cleaner UI for tasks and navigation on mobile and desktop views.
+    - Refactored the `App.tsx` structure to improve component flow and user experience.
 
-  - **index.css**  
-    - Global improvements to spacing and margin for better consistency.  
-    - Applied `overflow: hidden` where necessary to prevent unnecessary scrolling.  
-    - Added utility classes to support responsive design tweaks across the app.  
-
----
-
-#### **Auth**  
-- **Login.tsx** and **Signup.tsx**  
-  - Enhanced form layouts to improve alignment and spacing on mobile and desktop.  
-  - Prevented page scrolling with `overflow: hidden`.  
-  - Applied reduced spacing between form elements for compact, clean design.  
-  - Ensured buttons remain visually consistent across devices.  
-
-- **Auth.css**  
-  - Added `max-width` for better form width handling on smaller screens.  
-  - Adjusted padding and margins for cleaner stacking on mobile devices.  
-  - Fixed layout alignment issues for modals and ensured that content centers without scrolling.  
+  - **index.css**
+    - Global improvements to spacing and margin for better consistency.
+    - Applied `overflow: hidden` where necessary to prevent unnecessary scrolling.
+    - Added utility classes to support responsive design tweaks across the app.
 
 ---
 
-#### **Landing Page**  
-- **LandingPage.tsx**  
-  - Adjusted the layout so buttons stack naturally on mobile.  
-  - Improved alignment for `h1` and paragraph elements.  
+#### **Auth**
+- **Login.tsx** and **Signup.tsx**
+  - Enhanced form layouts to improve alignment and spacing on mobile and desktop.
+  - Prevented page scrolling with `overflow: hidden`.
+  - Applied reduced spacing between form elements for compact, clean design.
+  - Ensured buttons remain visually consistent across devices.
 
-- **LandingPage.css**  
-  - Reduced excessive padding around the buttons for better use of screen space.  
-  - Fixed text alignment and ensured a consistent layout for mobile and desktop views.  
-
----
-
-#### **Tasks**  
-- **Tasks.tsx**  
-  - Restructured the page to display **Add New Task** at the top and **Ongoing Tasks** below.  
-  - Fixed a scrolling issue by removing nested scrollbars.  
-
-- **TaskList.tsx**  
-  - Improved the task display to stack vertically for mobile and desktop views.  
-
-- **TaskForm.tsx**  
-  - Improved spacing and alignment of the form elements for desktop and mobile.  
-  - Fixed a bug with date input formatting (`yyyy-MM-dd`), ensuring compatibility with backend requirements.  
+- **Auth.css**
+  - Added `max-width` for better form width handling on smaller screens.
+  - Adjusted padding and margins for cleaner stacking on mobile devices.
+  - Fixed layout alignment issues for modals and ensured that content centers without scrolling.
 
 ---
 
-#### **Navigation Bar**  
-- **NavigationBar.css**  
-  - Updated the navigation bar for better responsiveness:  
-    - **Desktop**: Centered the menu with equal spacing.  
-    - **Mobile**: Added a hamburger menu to show/hide navigation links.  
-  - Ensured the "Logout" button aligns perfectly with the menu items.  
-  - Moved the hamburger menu to the left and removed unnecessary labels ("App Menu") on mobile.  
+#### **Landing Page**
+- **LandingPage.tsx**
+  - Adjusted the layout so buttons stack naturally on mobile.
+  - Improved alignment for `h1` and paragraph elements.
+
+- **LandingPage.css**
+  - Reduced excessive padding around the buttons for better use of screen space.
+  - Fixed text alignment and ensured a consistent layout for mobile and desktop views.
 
 ---
 
+#### **Tasks**
+- **Tasks.tsx**
+  - Restructured the page to display **Add New Task** at the top and **Ongoing Tasks** below.
+  - Fixed a scrolling issue by removing nested scrollbars.
+  - Added logic to **categorize tasks by priority** (High, Medium, Low) for better organization.
+  - Implemented a **grid layout** for desktop with four columns to display tasks in a more structured manner.
 
-### **Challenges**  
-1. **Time Constraints**:  
-   - I am running out of time to complete all planned features for this project. My focus has shifted to ensuring the core functionality works as expected.  
+  - Sample Code Snippet:
+    ```tsx
+    <div className="task-category">
+      <h3 className="priority-high">High Priority</h3>
+      <div className="task-grid">
+        {tasks.filter((task) => task.priority === 'High').map((task) => (
+          <div key={task._id} className="task-item">
+            <strong>{task.title}</strong>
+            <p>Category: {task.category}</p>
+            <p>Priority: {task.priority}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    ```
 
-2. **Dashboard Functionality**:  
-   - The Dashboard remains a **low priority** as it requires additional API testing and integration with the `/analytics/stats` endpoint. If time permits, I will revisit it; otherwise, it will remain incomplete for this submission.  
+- **TaskList.tsx**
+  - Adjusted text and checkbox colors for better readability:
+    - Task text: Black
+    - "Mark as Complete": Checkbox label padded for alignment and styled in bold black text.
+  - Added section titles for priorities with distinct colors:
+    - **High Priority**: Red
+    - **Medium Priority**: Yellow
+    - **Low Priority**: White.
 
-3. **Scrolling Issues**:  - FIXED
-   - There are some persistent **scrolling issues** in both mobile and desktop layouts, particularly around nested scrollbars in the Tasks section. While I have addressed some problems, I may not have enough time to fully resolve this issue.  
+- **TaskForm.tsx**
+  - Improved spacing and alignment of the form elements for desktop and mobile.
+  - Fixed a bug with date input formatting (`yyyy-MM-dd`), ensuring compatibility with backend requirements.
 
-4. **Server-Side Testing**:  
-   - I was unable to complete all **backend tests** due to time constraints. Some endpoints, such as the analytics and task deletion APIs, may still have failing or incomplete tests. This will need to be revisited after ensuring the core app functionality is stable.  
+- **TaskList.css**
+  - Introduced a **grid layout** for desktop tasks:
+    ```css
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    ```
+  - Adjusted mobile styles to ensure tasks stack vertically.
+  - Styled priority headers:
+    ```css
+    .priority-high {
+      color: red;
+      font-weight: bold;
+    }
+
+    .priority-medium {
+      color: yellow;
+      font-weight: bold;
+    }
+
+    .priority-low {
+      color: white;
+      font-weight: bold;
+    }
+    ```
+  - Ensured completed tasks are marked with a green label:
+    ```css
+    .completed-label {
+      color: green;
+      font-weight: bold;
+    }
+    ```
 
 ---
 
-### **Current Focus**  
-- Prioritizing **core app functionality**, such as authentication, task creation, editing, and deletion.  
-- Ensuring the app runs smoothly on mobile and desktop devices.  
-- Addressing any critical bugs that directly impact the user experience.   
+#### **Navigation Bar**
+- **NavigationBar.css**
+  - Updated the navigation bar for better responsiveness:
+    - **Desktop**: Centered the menu with equal spacing.
+    - **Mobile**: Added a hamburger menu to show/hide navigation links.
+  - Ensured the "Logout" button aligns perfectly with the menu items.
+  - Moved the hamburger menu to the left and removed unnecessary labels ("App Menu") on mobile.
 
+---
+
+### **Challenges**
+
+1. **Time Constraints**:
+   - I am running out of time to complete all planned features for this project. My focus has shifted to ensuring the core functionality works as expected.
+
+2. **Dashboard Functionality**:
+   - The Dashboard remains a **low priority** as it requires additional API testing and integration with the `/analytics/stats` endpoint. If time permits, I will revisit it; otherwise, it will remain incomplete for this submission.
+
+3. **Server-Side Testing**:
+   - I was unable to complete all **backend tests** due to time constraints. Some endpoints, such as the analytics and task deletion APIs, may still have failing or incomplete tests. This will need to be revisited after ensuring the core app functionality is stable.
+
+---
+
+### **Current Focus**
+- Prioritizing **core app functionality**, such as authentication, task creation, editing, and deletion.
+- Ensuring the app runs smoothly on mobile and desktop devices.
+- Addressing any critical bugs that directly impact the user experience.
 
 ### Updated **File Structure**
 
